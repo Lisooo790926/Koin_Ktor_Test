@@ -9,5 +9,8 @@
 8. curl --location --request GET 'http://localhost:8080/same-database/use-transaction-to-insert-data'
 9. Then repeat step 4 and check the result, now it keep in 4 (This behavior is expected)
 
-### Conclusion
+### Issue
 If we use useTransaction, we should make sure the database coming from the same object, if we use another injection, it will lost the atomic
+
+### Conclusion
+We should make sure to use the singleton Database instance. 
