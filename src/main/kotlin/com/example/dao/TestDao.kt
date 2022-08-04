@@ -6,12 +6,10 @@ import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.ktorm.schema.*
 import java.util.*
-import javax.sql.DataSource
 
 class TestDao : KoinComponent {
 
-    private val dataSource: DataSource by inject()
-    private val database = Database.connect(dataSource)
+    private val database: Database by inject()
     private val random = Random()
 
     fun selectCount(): Int {

@@ -7,13 +7,11 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import org.koin.ktor.ext.inject
 import org.ktorm.database.Database
-import javax.sql.DataSource
 
 fun Application.configureRouting() {
 
     val testDao : TestDao by inject()
-    val dataSource: DataSource by inject()
-    val database = Database.connect(dataSource)
+    val database: Database by inject()
 
     routing {
         get("/select-count") {

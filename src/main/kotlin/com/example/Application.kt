@@ -10,7 +10,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
-import javax.sql.DataSource
+import org.ktorm.database.Database
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
@@ -22,7 +22,7 @@ fun main() {
             modules(
                 module {
                     single { TestDao() }
-                    single { buildDataSource(config) }
+                    single { buildDatabase(config) }
                 }
             )
         }
@@ -32,7 +32,7 @@ fun main() {
     }.start(wait = true)
 }
 
-fun buildDataSource(config: ApplicationConfig): DataSource {
+fun buildDatabase(config: ApplicationConfig): Database {
     val hikariConfig = HikariConfig().apply {
         poolName = config.propertyOrNull("dataSource.poolName")?.getString()
         driverClassName = config.propertyOrNull("driverClassName")?.getString()
@@ -45,5 +45,5 @@ fun buildDataSource(config: ApplicationConfig): DataSource {
         transactionIsolation = "TRANSACTION_READ_COMMITTED"
         connectionTestQuery = "SELECT 1"
     }
-    return HikariDataSource(hikariConfig)
+    return Database.connect(HikariDataSource(hikariConfig))
 }
