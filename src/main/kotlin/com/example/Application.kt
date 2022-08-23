@@ -2,6 +2,7 @@ package com.example
 
 import com.example.dao.TestDao
 import com.example.plugins.configureRouting
+import com.example.services.TestService
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.application.*
@@ -22,6 +23,7 @@ fun main() {
             modules(
                 module {
                     single { TestDao() }
+                    single { TestService() }
                     single { buildDatabase(config) }
                 }
             )

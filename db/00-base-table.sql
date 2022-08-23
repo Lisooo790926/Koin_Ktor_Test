@@ -19,4 +19,8 @@ CREATE TABLE test (
       create_time timestamp without time zone DEFAULT now() NOT NULL
 );
 
+INSERT INTO test (name, age)
+    SELECT 'person' || n, mod(n, 30)
+    FROM generate_series(1, 1000) AS n;
+
 INSERT INTO test(name, age) VALUES ('Evis', 31);
