@@ -19,6 +19,11 @@ fun Application.configureRouting() {
             call.respondText ("result = $result", contentType = ContentType.Text.Plain)
         }
 
+        get("/all") {
+            val result = testDao.getAll()
+            call.respondText ("result = $result", contentType = ContentType.Text.Plain)
+        }
+
         // ideally this scenario should use the same transaction
         get("/dao-database/use-transaction-to-insert-data") {
             database.useTransaction {

@@ -19,9 +19,9 @@ class TestDao : KoinComponent {
             .mapNotNull { r -> r.getInt(1) }.single()
     }
 
-    fun getAll(): List<TestEntity> {
+    fun getAll(): List<TestData> {
         return database.from(TestTable).select()
-            .mapNotNull { TestTable.createEntity(it) }
+            .mapNotNull { r -> toTestData(r) }
     }
 
     fun insertWithInputDatabase(database: Database) {
@@ -38,12 +38,18 @@ class TestDao : KoinComponent {
         }
     }
 
+    private fun toTestData(row: QueryRowSet) = TestData(
+        row.getInt(1),
+        row.getString(2),
+        row.getInt(3),
+        row.getInstant(4)
+    )
 }
 
 object TestTable : Table<Nothing>("test") {
     val id = long("id")
     val name = varchar("name")
-    val age = int("age")
+    val age = int("age2222222")
     val createTime = timestamp("create_time")
 }
 
@@ -65,8 +71,14 @@ data class InsertRequest (
         fun from(request: InsertRequest) : TestEntity {
             return TestEntity {
                 request.name
-
             }
         }
     }
 }
+
+data class TestData (
+    val id: Int?,
+    val name: String?,
+    val age: Int,
+    val createTime: Instant?
+)
